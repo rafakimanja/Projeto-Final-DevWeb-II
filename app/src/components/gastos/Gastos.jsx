@@ -3,7 +3,7 @@ import money from '../../assets/money.svg'
 import up from '../../assets/up.svg'
 import down from '../../assets/down.svg'
 import Form from "./Form"
-import TabelaPeriodos from "./TabelaPeriodos"
+import TabelaMensal from "./TabelaMensal"
 
 const Gastos = () => {
     return(
@@ -42,7 +42,7 @@ const Gastos = () => {
                 <Form/>
             </div>
             <div className="tabela-intervalos">
-                <TabelaPeriodos/>
+                <TabelaMensal/>
             </div>
         </>
     )

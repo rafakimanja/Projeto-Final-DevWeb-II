@@ -16,8 +16,12 @@ const Form = () => {
                 <input type="text" name="" id="" required/>
             </div>
             <div className="input-form">
-                <label htmlFor="">Number</label>
+                <label htmlFor="">Valor</label>
                 <input type="number" step={0.01} name="" id="" required/>
+            </div>
+            <div className="input-form">
+                <label htmlFor="">Data</label>
+                <input type="date" name="" id="" />
             </div>
             <div className="input-form">
                 <label htmlFor="">Entrada</label>

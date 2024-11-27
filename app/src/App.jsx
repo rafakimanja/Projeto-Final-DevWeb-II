@@ -3,6 +3,7 @@ import RootLayout from './components/RootLayout'
 import Index from './components/Index'
 import './App.css'
 import Gastos from './components/gastos/Gastos'
+import TabebaDetalhada from './components/detalhes/TabelaDetalhada'
 
 
 function App() {
@@ -16,6 +17,10 @@ function App() {
         {
           path: 'gastos',
           element: <Gastos/>,
+        },
+        {
+          path: 'detalhes',
+          element: <TabebaDetalhada/>
         }
       ]
     }
