@@ -4,11 +4,20 @@ class Data{
     }
 
     formataData(data){
+        if (typeof data == "string"){
+            const valor = Date.parse(data)
+            const dataObj = new Date(valor)
+            return dataObj.toLocaleDateString("pt-BR")
+        }
         return data.toLocaleDateString("pt-BR")
     }
     
-    getDiaAtual(){
+    getDataAtual(){
         return this.formataData(this.data)
+    }
+
+    getMesAtual(){
+        return this.data.getMonth()+1
     }
 
     getDiaEspec(dia, mes, ano){
@@ -20,7 +29,7 @@ class Data{
         return this.formataData(dataEspec)
     }
 
-    getMes(mes){
+    getMesStr(mes){
         const meses = [
             "Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
         ]
