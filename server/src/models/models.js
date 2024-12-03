@@ -61,13 +61,20 @@ const deletaRegistro = (id) => {
     if (pos != -1){
         models.splice(pos, 1);
         return true
-    }else{
-        return false
-    }
+    }else return false
 }
 
-const alteraRegistro = (id) => {
-
+const alteraRegistro = (id, data, descricao, valor, tipo, categoria) => {
+    const pos = findIndex(id)
+    if(pos != -1){
+        let obj = models[pos]
+        obj.data = data
+        obj.descricao = descricao
+        obj.valor = valor
+        obj.tipo = tipo
+        obj.categoria = categoria
+        return true
+    }else return false
 }
 
 module.exports = {
