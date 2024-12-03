@@ -1,4 +1,4 @@
-const {models, criaRegistro, deletaRegistro, alteraRegistro} = require("../models/models")
+const Gasto = require("../models/models")
 const Data = require("../services/date")
 
 const d = new Data()
@@ -7,12 +7,10 @@ const calculaMes = (regDoMes) => {
     let ganhos = 0, gastos = 0
 
     for(let i=0; i<regDoMes.length; i++){
-
         const obj = regDoMes[i]
 
         if(obj.tipo == 'saida') gastos += obj.valor
         else ganhos += obj.valor
-
     }
 
     return {
@@ -23,17 +21,15 @@ const calculaMes = (regDoMes) => {
 }
 
 
-function listarIndex(req, res){
-
+async function listarIndex(req, res){
+    const gastos = await Gasto.find({})
     const array = []
     
     for(let j=1; j<=12; j++){
-
         let arrayRegMes = []
 
-        for(let i=0; i<models.length; i++){
-            
-            const registro = models[i]
+        for(let i=0; i<gastos.length; i++){
+            const registro = gastos[i]
             let mes = registro.data[3] + registro.data[4]
 
             if(mes == j) arrayRegMes.push(registro)
@@ -49,12 +45,12 @@ function listarIndex(req, res){
     res.status(200).json(array)
 }
 
-function listarGastosDetalhados(req, res){
-
+async function listarGastosDetalhados(req, res){
+    const gastos = await Gasto.find({})
     const registros = []
 
-    for(let i=0; i<models.length; i++){
-        let registro = models[i]
+    for(let i=0; i<gastos.length; i++){
+        let registro = gastos[i]
         let mes = registro.data[3] + registro.data[4]
         
         if(mes == d.getMesAtual()) registros.push(registro)
@@ -63,12 +59,13 @@ function listarGastosDetalhados(req, res){
     else res.status(404).json(registros)
 }
 
-function listarGastosMes(req, res){
+async function listarGastosMes(req, res){
+    const gastos = await Gasto.find({})
     const {mes} = req.params
     const registros = []
 
-    for(let i=0; i<models.length; i++){
-        let registro = models[i]
+    for(let i=0; i<gastos.length; i++){
+        let registro = gastos[i]
         let mesReg = registro.data[3] + registro.data[4]
         
         if(mesReg == mes) registros.push(registro)
@@ -77,27 +74,39 @@ function listarGastosMes(req, res){
     else res.status(404).json(registros)
 }
 
-function criaGasto(req, res){
+async function criaGasto(req, res){
     const {data, descricao, valor, tipo, categoria} = req.body
-    const resp = criaRegistro(data, descricao, valor, tipo, categoria)
-    if(resp) res.status(200).json({message: "registro criado!"})
-    else res.status(400).json({message: "erro ao criar registro!"})
+    const novoGasto = new Gasto({data, descricao, valor, tipo, categoria})
+    try{
+        const result = await novoGasto.save()
+        res.status(200).json({message: "registro criado!", return: result})
+    } catch (erro) {
+        res.status(500).json({message: `${erro}`})
+    }
 }
 
-function deletaGasto(req, res){
-    const {id} = req.params
-    const resp = deletaRegistro(id)
-    if(resp) res.status(200).json({message: "registro deletado!"})
-    else res.status(400).json({message: "erro ao deletar registro!"})
-}
-
-function alteraGasto(req, res){
+async function alteraGasto(req, res){
     const {id} = req.params
     const {data, descricao, valor, tipo, categoria} = req.body
-    const resp = alteraRegistro(id, data, descricao, valor, tipo, categoria)
-    if(resp) res.status(200).json({message: "registro deletado!"})
-    else res.status(400).json({message: "erro ao deletar registro!"})
+    try {
+        const result = await Gasto.findByIdAndUpdate(id, {data, descricao, valor, tipo, categoria}, {runValidators: true})
+        res.status(200).json({message: "registro alterado!", return: result})
+    } catch (erro) {
+        res.status(500).json({message: `${erro}`})
+    }
 }
+
+async function deletaGasto(req, res){
+    const {id} = req.params
+    try {
+        const result = await Gasto.findByIdAndDelete(id)
+        res.status(200).json({message: "registro deletado!", return: result})
+    } catch (erro) {
+        res.status(500).json({message: `${erro}`})
+    }
+}
+
+
 
 module.exports = {
     listarIndex,
