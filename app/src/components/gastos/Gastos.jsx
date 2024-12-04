@@ -4,8 +4,13 @@ import up from '../../assets/up.svg'
 import down from '../../assets/down.svg'
 import Form from "./Form"
 import TabelaMensal from "./TabelaMensal"
+import axios from "axios"
+import { useLoaderData } from "react-router-dom"
 
 const Gastos = () => {
+
+    const gastos = useLoaderData()
+
     return(
         <>
             <h1>Novembro/2024</h1>
@@ -42,10 +47,16 @@ const Gastos = () => {
                 <Form/>
             </div>
             <div className="tabela-intervalos">
-                <TabelaMensal/>
+                <TabelaMensal gastos={gastos}/>
             </div>
         </>
     )
 }
 
 export default Gastos
+
+export async function getGastosMes() {
+    const url = 'http://localhost:3000/detalhes'
+    const {data} = await axios.get(url)
+    return data
+}

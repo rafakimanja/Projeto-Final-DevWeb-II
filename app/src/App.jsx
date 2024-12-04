@@ -1,10 +1,10 @@
+import { useState } from 'react'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import RootLayout from './components/RootLayout'
-import Index from './components/Index'
+import Index, {getGastosPeriodos} from './components/Index'
+import Gastos, {getGastosMes} from './components/gastos/Gastos'
+import TabebaDetalhada, {getDetalhesGastos} from './components/detalhes/TabelaDetalhada'
 import './App.css'
-import Gastos from './components/gastos/Gastos'
-import TabebaDetalhada from './components/detalhes/TabelaDetalhada'
-
 
 function App() {
 
@@ -13,14 +13,17 @@ function App() {
       path: '/',
       element: <RootLayout />,
       children: [
-        {index: true, element: <Index/>},
+        {index: true, element: <Index/>, loader: getGastosPeriodos},
         {
           path: 'gastos',
           element: <Gastos/>,
+          loader: getGastosMes
         },
         {
-          path: 'detalhes',
-          element: <TabebaDetalhada/>
+          path: 'detalhes/:mes',
+          id: 'gastosDetail',
+          element: <TabebaDetalhada/>,
+          loader: getDetalhesGastos
         }
       ]
     }

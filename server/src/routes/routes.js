@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors')
 const {listarIndex, listarGastosDetalhados, listarGastosMes, criaGasto, deletaGasto, alteraGasto} = require("../controllers/controllers")
 
 // '/index' -> GET = retorno dos meses cadastrados no banco com GANHOS, GASTOS, BALANCO
@@ -10,6 +11,7 @@ const {listarIndex, listarGastosDetalhados, listarGastosMes, criaGasto, deletaGa
 
 const routes = (app) => {
     app.use(express.json())
+    app.use(cors())
     app.get('/index', listarIndex)
     app.get('/detalhes', listarGastosDetalhados)
     app.get('/detalhes/:mes', listarGastosMes)

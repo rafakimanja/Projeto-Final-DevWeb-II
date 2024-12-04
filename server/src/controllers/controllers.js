@@ -13,10 +13,14 @@ const calculaMes = (regDoMes) => {
         else ganhos += obj.valor
     }
 
-    return {
-        ganhos: ganhos,
-        gastos: gastos,
-        saldo: ganhos-gastos
+    if (ganhos == 0  && gastos == 0){
+        return null
+    } else {
+        return {
+            ganhos: ganhos,
+            gastos: gastos,
+            saldo: ganhos-gastos
+        }
     }
 }
 

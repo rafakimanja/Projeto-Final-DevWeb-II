@@ -1,32 +1,31 @@
+import { Link } from 'react-router-dom'
 import './TabelaPeriodos.css'
 
-const TabelaPeriodos = () => {
+const TabelaPeriodos = ({periodos}) => {
     return(
         <table>
-            <tr>
-                <th>Período</th>
-                <th>Ganhos</th>
-                <th>Gastos</th>
-                <th>Balanço</th>
-            </tr>
-            <tr>
-                <td>Fev/24</td>
-                <td>R$ 1.250,01</td>
-                <td>R$ 1.087,10</td>
-                <td>+R$ 162,91</td>
-            </tr>
-            <tr>
-                <td>Mar/24</td>
-                <td>R$ 1.250,01</td>
-                <td>R$ 1.087,10</td>
-                <td>+R$ 162,91</td>
-            </tr>
-            <tr>
-                <td>Abr/24</td>
-                <td>R$ 1.250,01</td>
-                <td>R$ 1.087,10</td>
-                <td>+R$ 162,91</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Período</th>
+                    <th>Ganhos</th>
+                    <th>Gastos</th>
+                    <th>Balanço</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    periodos.map((item, index) => (
+                        item.dados ? (
+                            <tr key={index}>
+                                <td><Link to={`/detalhes/${index+1}`} state={{mes: item.mes}}>{item.mes}</Link></td>
+                                <td>R$ {item.dados.ganhos}</td>
+                                <td>R$ {item.dados.gastos}</td>
+                                <td>R$ {item.dados.saldo}</td>
+                            </tr>
+                        ) : null
+                    ))
+                }
+            </tbody>
         </table>
     )
 }
