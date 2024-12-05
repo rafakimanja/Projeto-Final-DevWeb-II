@@ -79,8 +79,9 @@ async function listarGastosMes(req, res){
 }
 
 async function criaGasto(req, res){
-    const {data, descricao, valor, tipo, categoria} = req.body
-    const novoGasto = new Gasto({data, descricao, valor, tipo, categoria})
+    const { data, descricao, valor, tipo, categoria} = req.body
+    const dataFormatada = d.formataData(data)
+    const novoGasto = new Gasto({data: dataFormatada, descricao, valor, tipo, categoria})
     try{
         const result = await novoGasto.save()
         res.status(200).json({message: "registro criado!", return: result})

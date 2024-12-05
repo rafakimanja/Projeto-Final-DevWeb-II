@@ -5,6 +5,13 @@ import Index, {getGastosPeriodos} from './components/Index'
 import Gastos, {getGastosMes} from './components/gastos/Gastos'
 import TabebaDetalhada, {getDetalhesGastos} from './components/detalhes/TabelaDetalhada'
 import './App.css'
+import axios from 'axios'
+
+export async function deleteGasto(id) {
+    const url = `http://localhost:3000/gasto/${id}`
+    const {data} = await axios.delete(url)
+    return data
+}
 
 function App() {
 
@@ -16,7 +23,8 @@ function App() {
         {index: true, element: <Index/>, loader: getGastosPeriodos},
         {
           path: 'gastos',
-          element: <Gastos/>,
+          id: 'gastos',
+          element: <Gastos deleteGasto={deleteGasto} />,
           loader: getGastosMes
         },
         {

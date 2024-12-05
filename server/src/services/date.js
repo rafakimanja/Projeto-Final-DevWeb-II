@@ -5,9 +5,9 @@ class Data{
 
     formataData(data){
         if (typeof data == "string"){
-            const valor = Date.parse(data)
-            const dataObj = new Date(valor)
-            return dataObj.toLocaleDateString("pt-BR")
+            const [ano, mes, dia] = data.split("-").map(Number);
+            const dataObj = new Date(ano, mes-1, dia);
+            return dataObj.toLocaleDateString("pt-BR");
         }
         return data.toLocaleDateString("pt-BR")
     }

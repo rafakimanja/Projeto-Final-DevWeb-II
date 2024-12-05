@@ -2,14 +2,24 @@ import Tab from "./Tab"
 import money from '../../assets/money.svg'
 import up from '../../assets/up.svg'
 import down from '../../assets/down.svg'
-import Form from "./Form"
+import FormGastos from "./FormGastos"
 import TabelaMensal from "./TabelaMensal"
 import axios from "axios"
-import { useLoaderData } from "react-router-dom"
+import { useRouteLoaderData } from "react-router-dom"
 
-const Gastos = () => {
+const Gastos = ({deleteGasto}) => {
 
-    const gastos = useLoaderData()
+    const gastos = useRouteLoaderData('gastos')
+
+    const handleDeleteSubmit = async (id) => {
+        const response = await deleteGasto(id)
+
+        if (response.return) alert(
+            `${response.message}\n\n` +
+            `Detalhes:\n${JSON.stringify(response.return, null, 2)}`
+        )
+        else alert(`${response.message}`)
+    }
 
     return(
         <>
@@ -44,10 +54,10 @@ const Gastos = () => {
                 </div>
             </div>
             <div className="input-dados">
-                <Form/>
+                <FormGastos/>
             </div>
             <div className="tabela-intervalos">
-                <TabelaMensal gastos={gastos}/>
+                <TabelaMensal gastos={gastos} handleDeleteSubmit={handleDeleteSubmit}/>
             </div>
         </>
     )

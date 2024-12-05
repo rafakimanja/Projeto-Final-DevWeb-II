@@ -1,6 +1,8 @@
+import iconDelete from '../../assets/iconDelete.svg'
+import iconEdit from '../../assets/iconEdit.svg'
 import './TabelaMensal.css'
 
-const TabelaMensal = ({gastos}) => {
+const TabelaMensal = ({gastos, handleDeleteSubmit}) => {
     return(
         <table>
             <thead>
@@ -21,6 +23,8 @@ const TabelaMensal = ({gastos}) => {
                             <td>R$ {item.valor}</td>
                             <td>{item.tipo}</td>
                             <td>{item.categoria}</td>
+                            <td><button onClick={() => handleDeleteSubmit(item._id)}><img src={iconEdit} alt="" srcset="" /></button></td>
+                            <td><button><img src={iconDelete} alt="" srcset="" /></button></td>
                         </tr>
                     ))
                 }

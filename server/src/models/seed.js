@@ -1,5 +1,5 @@
 const Data = require("../services/date")
-const { Gasto } = require('./models')
+const Gasto = require('./models')
 
 const d = new Data()
 
