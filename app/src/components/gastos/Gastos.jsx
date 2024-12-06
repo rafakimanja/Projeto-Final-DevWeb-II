@@ -8,14 +8,18 @@ import axios from "axios"
 import { useRouteLoaderData } from "react-router-dom"
 import { useEffect, useState } from "react"
 
-const Gastos = ({deleteGasto, alteraGasto, dadosMeses}) => {
+const Gastos = ({deleteGasto, alteraGasto}) => {
 
+    const [mesSelecionado, setMesSelecionado] = useState('')
+    const [dadosMesSelecionado, setDadosMesSelecionado] = useState({})
     const [gastos, setGastos] = useState([])
-    const gastosAPI = useRouteLoaderData('gastos')
+    const [gastosAPI, setGastosAPI] = useState([])
 
-    const date = new Date()
-    const mesAtual = date.getMonth()+1
-
+    const mesesDoAno = [
+        "janeiro", "fevereiro", "marco", "abril", "maio", "junho",
+        "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+    ];
+    
     const addGastos = (novoGasto) => {
         setGastos((gastosAtuais) => {
             const jaExiste = gastosAtuais.some((gasto) => gasto._id == novoGasto._id)
@@ -27,19 +31,20 @@ const Gastos = ({deleteGasto, alteraGasto, dadosMeses}) => {
     }
 
     useEffect(() => {
-        gastosAPI.forEach((gasto) => {
-            if(gasto){
-                addGastos({
-                    _id: gasto._id,
-                    data: gasto.data,
-                    descricao: gasto.descricao,
-                    valor: gasto.valor,
-                    tipo: gasto.tipo,
-                    categoria: gasto.categoria
-                })
-            }
-        })
-        console.table(gastos)
+        if (gastosAPI.length > 0){
+            gastosAPI.forEach((gasto) => {
+                if(gasto){
+                    addGastos({
+                        _id: gasto._id,
+                        data: gasto.data,
+                        descricao: gasto.descricao,
+                        valor: gasto.valor,
+                        tipo: gasto.tipo,
+                        categoria: gasto.categoria
+                    })
+                }
+            })
+        }
     }, [gastosAPI, addGastos])
     
     const removeGastos = id => {
@@ -57,44 +62,81 @@ const Gastos = ({deleteGasto, alteraGasto, dadosMeses}) => {
         const response = await deleteGasto(id)
 
         if (response.return) {
-            alert(
-            `${response.message}\n\n` +
-            `Detalhes:\n${JSON.stringify(response.return, null, 2)}`
-            )
             removeGastos(id)
         }
-        else alert(`${response.message}`)
+        alert(`${response.message}`)
     }
 
     const handleUpdateSubmit = async (id, objeto) => {
         const response = await alteraGasto(id, objeto)
         if (response.return) {
             alterGastos(id, response.return)
-            alert(
-            `${response.message}\n\n` +
-            `Detalhes:\n${JSON.stringify(response.return, null, 2)}`
-            )
         }
-        else alert(`${response.message}`)
+        alert(`${response.message}`)
     }
     // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-    const handleEncontraMesAtual = (meses, mes) => {
-        return meses.find(obj => obj.num == mes)
+    const handleMesSelecionado = async (e) => {
+        const mes = e.target.value;
+        setMesSelecionado(mes);
+        if (mes) {
+            await setDadosMesAtual(mes);
+            await setGastosMes(mesesDoAno.indexOf(mes)+1)
+        }
     }
 
-    const objMesAtual = handleEncontraMesAtual(dadosMeses, mesAtual)
+    const setDadosMesAtual = async (mes) => {
+        const response = await getDadosBaseMeses();
+        const data = response.find((item) => item.mes.toLowerCase() == mes.toLowerCase());
+        if (data.dados) {
+            setDadosMesSelecionado({
+                mes: data.mes,
+                ganhos: data.dados.ganhos,
+                gastos: data.dados.gastos,
+                saldo: data.dados.saldo
+            })
+        } else {
+            setDadosMesSelecionado({
+                mes: data.mes,
+                ganhos: 0,
+                gastos: 0,
+                saldo: 0
+            })
+        }
+    }
+
+    const setGastosMes = async (mes) => {
+        const response = await getDetalhesGastosMesEspec(mes)
+        if(response.length > 0) setGastosAPI(response)
+        else setGastosAPI([])
+    }
+
 
     return(
         <>
-            <h1>{objMesAtual.mes}</h1>
+            <select name="mesSelecionado" id="mesSelecionado" value={mesSelecionado} onChange={handleMesSelecionado} >
+                <option value="">Selecione</option>
+                <option value="janeiro">Janeiro</option>
+                <option value="fevereiro">Fevereiro</option>
+                <option value="marco">Março</option>
+                <option value="abril">Abril</option>
+                <option value="maio">Maio</option>
+                <option value="junho">Junho</option>
+                <option value="julho">Julho</option>
+                <option value="agosto">Agosto</option>
+                <option value="setembro">Setembro</option>
+                <option value="outubro">Outubro</option>
+                <option value="novembro">Novembro</option>
+                <option value="dezembro">Dezembro</option>
+            </select>
+            <h1>Mes {dadosMesSelecionado.mes} | Index {mesesDoAno.indexOf(mesSelecionado)}</h1>
             <div className="valores">
                 <div className="aba">
                     <Tab>
                         <div>
                             <h2>Entradas</h2>
                             <img src={up} alt="icone seta para cima" />
-                            <p>R$ {objMesAtual.ganhos.toFixed(2)}</p>
+                            <p>R$ {dadosMesSelecionado.ganhos}</p>
                         </div>
                     </Tab>
                 </div>
@@ -103,7 +145,7 @@ const Gastos = ({deleteGasto, alteraGasto, dadosMeses}) => {
                         <div>
                             <h2>Saídas</h2>
                             <img src={down} alt="icone seta para baixo" />
-                            <p>R$ {objMesAtual.gastos.toFixed(2)}</p>
+                            <p>R$ {dadosMesSelecionado.gastos}</p>
                         </div>
                     </Tab>
                 </div>
@@ -112,7 +154,7 @@ const Gastos = ({deleteGasto, alteraGasto, dadosMeses}) => {
                         <div>
                             <h2>Balanço</h2>
                             <img src={money} alt="icone dinheiro" />
-                            <p>R$ {objMesAtual.saldo.toFixed(2)}</p>
+                            <p>R$ {dadosMesSelecionado.saldo}</p>
                         </div>
                     </Tab>
                 </div>
@@ -131,6 +173,18 @@ export default Gastos
 
 export async function getGastosMes() {
     const url = 'http://localhost:3000/detalhes'
+    const {data} = await axios.get(url)
+    return data
+}
+
+async function getDetalhesGastosMesEspec(mes){
+    const url = `http://localhost:3000/detalhes/${mes}`
+    const {data, response} = await axios.get(url)
+    return data
+}
+
+async function getDadosBaseMeses() {
+    const url = 'http://localhost:3000/index'
     const {data} = await axios.get(url)
     return data
 }

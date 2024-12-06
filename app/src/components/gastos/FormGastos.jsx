@@ -44,12 +44,8 @@ const FormGastos = ({addGastosArray}) => {
 
         if (response.return){ 
             addGastosArray(response.return)
-            alert(
-            `${response.message}\n\n` +
-            `Detalhes:\n${JSON.stringify(response.return, null, 2)}`
-            )
         }
-        else alert(`${response.message}`)
+        alert(`${response.message}`)
     }
 
     return(

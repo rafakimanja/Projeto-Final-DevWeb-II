@@ -60,7 +60,7 @@ async function listarGastosDetalhados(req, res){
         if(mes == d.getMesAtual()) registros.push(registro)
     }
     if (registros.length > 0) res.status(200).json(registros)
-    else res.status(404).json(registros)
+    else res.status(204).json(registros)
 }
 
 async function listarGastosMes(req, res){
@@ -75,7 +75,7 @@ async function listarGastosMes(req, res){
         if(mesReg == mes) registros.push(registro)
     }
     if (registros.length > 0) res.status(200).json(registros)
-    else res.status(404).json(registros)
+    else res.status(204).json(registros)
 }
 
 async function criaGasto(req, res){

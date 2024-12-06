@@ -1,25 +1,10 @@
 import axios from 'axios'
-import { useEffect } from 'react'
 import {useLoaderData} from 'react-router-dom'
 import TabelaPeriodos from './TabelaPeriodos'
 
-const Index = ({addDadosMeses}) => {
+const Index = () => {
 
     const periodos = useLoaderData()
-
-    useEffect(() => {
-        periodos.forEach((item, index) => {
-            if(item.dados){
-                addDadosMeses({
-                    num: index+1,
-                    mes: item.mes,
-                    ganhos: item.dados.ganhos,
-                    gastos: item.dados.gastos,
-                    saldo: item.dados.saldo
-                })
-            }
-        })
-    }, [periodos, addDadosMeses])
 
     return(
         <>

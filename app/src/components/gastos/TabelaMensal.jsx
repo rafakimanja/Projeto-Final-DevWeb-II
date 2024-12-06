@@ -53,6 +53,7 @@ const TabelaMensal = ({ gastos, handleDeleteSubmit, handleUpdateSubmit }) => {
   }
 
   return (
+  
     <table>
       <thead>
         <tr>

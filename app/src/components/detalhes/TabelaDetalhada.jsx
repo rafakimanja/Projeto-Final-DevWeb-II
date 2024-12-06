@@ -7,6 +7,7 @@ import './TabelaDetalhada.css'
 const TabebaDetalhada = ({deleteGasto, alteraGasto}) => {
 
     const [gastos, setGastos] = useState([])
+    
     const gastosAPI = useRouteLoaderData('gastosDetail')
 
     const location = useLocation()
@@ -54,24 +55,16 @@ const TabebaDetalhada = ({deleteGasto, alteraGasto}) => {
     
             if (response.return) {
                 removeGastos(id)
-                alert(
-                `${response.message}\n\n` +
-                `Detalhes:\n${JSON.stringify(response.return, null, 2)}`
-                )
             }
-            else alert(`${response.message}`)
+            alert(`${response.message}`)
         }
     
         const handleUpdateSubmit = async (id, objeto) => {
             const response = await alteraGasto(id, objeto)
             if (response.return) {
                 alterGastos(id, response.return)
-                alert(
-                `${response.message}\n\n` +
-                `Detalhes:\n${JSON.stringify(response.return, null, 2)}`
-                )
             }
-            else alert(`${response.message}`)
+            alert(`${response.message}`)
         }
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 

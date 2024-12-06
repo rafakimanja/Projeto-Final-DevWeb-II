@@ -7,6 +7,10 @@ import TabebaDetalhada, {getDetalhesGastos} from './components/detalhes/TabelaDe
 import './App.css'
 import axios from 'axios'
 
+// resolver os dados do mes atual que passa de index para Gastos
+// resolver o problema de adicionar um objeto no State que seja do mes diferente do atual
+// adicionar CSS
+
 async function deleteGasto(id) {
     const url = `http://localhost:3000/gasto/${id}`
     const {data} = await axios.delete(url)
@@ -21,27 +25,16 @@ async function alteraGasto(id, gasto) {
 
 function App() {
 
-  const [dadosMeses, setDadosMeses] = useState([])
-
-  const addDadosMeses = (dadoMes) => {
-    setDadosMeses((prevDados) => {
-        if (!prevDados.some(item => item.num == dadoMes.num)) {
-            return [...prevDados, dadoMes]
-        }
-        return prevDados
-    })
-  }
-
   const router = createBrowserRouter([
     {
       path: '/',
       element: <RootLayout />,
       children: [
-        {index: true, element: <Index addDadosMeses={addDadosMeses}/>, loader: getGastosPeriodos},
+        {index: true, element: <Index/>, loader: getGastosPeriodos},
         {
           path: 'gastos',
           id: 'gastos',
-          element: <Gastos deleteGasto={deleteGasto} alteraGasto={alteraGasto} dadosMeses={dadosMeses}/>,
+          element: <Gastos deleteGasto={deleteGasto} alteraGasto={alteraGasto}/>,
           loader: getGastosMes
         },
         {
