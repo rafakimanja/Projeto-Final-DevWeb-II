@@ -3,7 +3,7 @@ import axios from 'axios'
 
 //manda o objeto criado com o formulario como prop para o Gasto e faz a requisicao por ele 
 
-const FormGastos = () => {
+const FormGastos = ({addGastosArray}) => {
 
     const [descricao, setDescricao] = useState('')
     const [valor, setValor] = useState('')
@@ -42,10 +42,13 @@ const FormGastos = () => {
         
         const response = await addGasto(gasto)
 
-        if (response.return) alert(
+        if (response.return){ 
+            addGastosArray(response.return)
+            alert(
             `${response.message}\n\n` +
             `Detalhes:\n${JSON.stringify(response.return, null, 2)}`
-        )
+            )
+        }
         else alert(`${response.message}`)
     }
 
@@ -85,7 +88,14 @@ const FormGastos = () => {
                     : ''
                 }
                 <div className="input-form">
-                    <button onClick={() => handleSubmit(descricao, valor, data, tipo, categoria)}>Salvar</button>
+                    <button onClick={() => {
+                        handleSubmit(descricao, valor, data, tipo, categoria)
+                        setData('')
+                        setCategoria('')
+                        setDescricao('')
+                        setValor('')
+                        setTipo('')
+                        }}>Salvar</button>
                 </div>
             
         </div>

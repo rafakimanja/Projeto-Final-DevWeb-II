@@ -2,21 +2,7 @@ import { Link } from 'react-router-dom'
 import './TabelaPeriodos.css'
 import { useEffect } from 'react'
 
-const TabelaPeriodos = ({periodos, handleAddDadosMeses}) => {
-
-    useEffect(() => {
-        periodos.forEach((item, index) => {
-            if(item.dados){
-                handleAddDadosMeses({
-                    num: index+1,
-                    mes: item.mes,
-                    ganhos: item.dados.ganhos,
-                    gastos: item.dados.gastos,
-                    saldo: item.dados.saldo
-                })
-            }
-        })
-    }, [periodos, handleAddDadosMeses])
+const TabelaPeriodos = ({periodos}) => {
 
     return(
         <table>

@@ -23,7 +23,7 @@ function App() {
 
   const [dadosMeses, setDadosMeses] = useState([])
 
-  const handleAddDadosMeses = (dadoMes) => {
+  const addDadosMeses = (dadoMes) => {
     setDadosMeses((prevDados) => {
         if (!prevDados.some(item => item.num == dadoMes.num)) {
             return [...prevDados, dadoMes]
@@ -32,13 +32,12 @@ function App() {
     })
   }
 
-
   const router = createBrowserRouter([
     {
       path: '/',
       element: <RootLayout />,
       children: [
-        {index: true, element: <Index handleAddDadosMeses={handleAddDadosMeses}/>, loader: getGastosPeriodos},
+        {index: true, element: <Index addDadosMeses={addDadosMeses}/>, loader: getGastosPeriodos},
         {
           path: 'gastos',
           id: 'gastos',
