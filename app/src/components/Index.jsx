@@ -2,14 +2,14 @@ import axios from 'axios'
 import {useLoaderData} from 'react-router-dom'
 import TabelaPeriodos from './TabelaPeriodos'
 
-const Index = () => {
+const Index = ({handleAddDadosMeses}) => {
 
     const periodos = useLoaderData()
 
     return(
         <>
             <h1>Index template</h1>
-            <TabelaPeriodos periodos={periodos} />
+            <TabelaPeriodos periodos={periodos} handleAddDadosMeses={handleAddDadosMeses} />
         </>
     )
 }

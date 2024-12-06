@@ -79,7 +79,7 @@ async function listarGastosMes(req, res){
 }
 
 async function criaGasto(req, res){
-    const { data, descricao, valor, tipo, categoria} = req.body
+    const { data, descricao, valor, tipo, categoria } = req.body
     const dataFormatada = d.formataData(data)
     const novoGasto = new Gasto({data: dataFormatada, descricao, valor, tipo, categoria})
     try{
@@ -92,9 +92,10 @@ async function criaGasto(req, res){
 
 async function alteraGasto(req, res){
     const {id} = req.params
-    const {data, descricao, valor, tipo, categoria} = req.body
+    const { data, descricao, valor, tipo, categoria } = req.body
+    const dataFormatada = d.formataData(data)
     try {
-        const result = await Gasto.findByIdAndUpdate(id, {data, descricao, valor, tipo, categoria}, {runValidators: true})
+        const result = await Gasto.findByIdAndUpdate(id, {data: dataFormatada, descricao, valor, tipo, categoria}, {runValidators: true, new: true},)
         res.status(200).json({message: "registro alterado!", return: result})
     } catch (erro) {
         res.status(500).json({message: `${erro}`})
