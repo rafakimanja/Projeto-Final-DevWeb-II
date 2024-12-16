@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import iconDelete from '../../assets/iconDelete.svg';
 import iconEdit from '../../assets/iconEdit.svg';
+import check from '../../assets/check.svg';
+import close from '../../assets/close.svg';
 import './TabelaMensal.css';
 
 const TabelaMensal = ({ gastos, handleDeleteSubmit, handleUpdateSubmit }) => {
@@ -88,8 +90,10 @@ const TabelaMensal = ({ gastos, handleDeleteSubmit, handleUpdateSubmit }) => {
                   </select>
                 </td>
                 <td>
-                  <button onClick={handleSave}>Salvar</button>
-                  <button onClick={handleEditClose}>Fechar</button>
+                  <div className="botoes-alterar">
+                    <button onClick={handleSave} id='salvar'><img src={check} alt="iconCheck" /></button>
+                    <button onClick={handleEditClose} id='fechar'><img src={close} alt="iconClose" /></button>
+                  </div>
                 </td>
               </>
             ) : 
@@ -100,11 +104,11 @@ const TabelaMensal = ({ gastos, handleDeleteSubmit, handleUpdateSubmit }) => {
                 <td>R$ {item.valor}</td>
                 <td>{item.tipo}</td>
                 <td>{item.categoria}</td>
-                <td>
-                  <button onClick={() => handleEditOpen(item)}>
+                <td className='coluna-botoes'>
+                  <button onClick={() => handleEditOpen(item)} id='editar'>
                     <img src={iconEdit} alt="Ícone de lápis" />
                   </button>
-                  <button onClick={() => handleDeleteSubmit(item._id)}>
+                  <button onClick={() => handleDeleteSubmit(item._id)} id='excluir'>
                     <img src={iconDelete} alt="Ícone de lixeira" />
                   </button>
                 </td>

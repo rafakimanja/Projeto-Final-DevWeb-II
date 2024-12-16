@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {useLoaderData} from 'react-router-dom'
 import TabelaPeriodos from './TabelaPeriodos'
+import './Index.css'
 
 const Index = () => {
 
@@ -8,8 +9,11 @@ const Index = () => {
 
     return(
         <>
-            <h1>Index template</h1>
-            <TabelaPeriodos periodos={periodos} />
+            <div className="background-index">
+                <h1>Lista de Gastos</h1>
+                <TabelaPeriodos periodos={periodos} />
+            </div>
+            
         </>
     )
 }

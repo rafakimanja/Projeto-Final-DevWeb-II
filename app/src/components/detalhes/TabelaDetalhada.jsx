@@ -40,33 +40,33 @@ const TabebaDetalhada = ({deleteGasto, alteraGasto}) => {
     }, [gastosAPI, addGastos])
 
     const removeGastos = id => {
-        setGastos(gastos.filter((dadoGasto) => dadoGasto._id != id))
-        }
+    setGastos(gastos.filter((dadoGasto) => dadoGasto._id != id))
+    }
+
+    const alterGastos = (id, dadosAtualizados) => {
+        setGastos((gastosAtuais) =>
+            gastosAtuais.map((gasto) => (gasto._id == id ? { ...gasto, ...dadosAtualizados } : gasto))
+        )
+    }
     
-        const alterGastos = (id, dadosAtualizados) => {
-            setGastos((gastosAtuais) =>
-                gastosAtuais.map((gasto) => (gasto._id == id ? { ...gasto, ...dadosAtualizados } : gasto))
-            )
+    // FUNCOES DE BACK-END
+    const handleDeleteSubmit = async (id) => {
+        const response = await deleteGasto(id)
+
+        if (response.return) {
+            removeGastos(id)
         }
-        
-        // FUNCOES DE BACK-END
-        const handleDeleteSubmit = async (id) => {
-            const response = await deleteGasto(id)
-    
-            if (response.return) {
-                removeGastos(id)
-            }
-            alert(`${response.message}`)
+        alert(`${response.message}`)
+    }
+
+    const handleUpdateSubmit = async (id, objeto) => {
+        const response = await alteraGasto(id, objeto)
+        if (response.return) {
+            alterGastos(id, response.return)
         }
-    
-        const handleUpdateSubmit = async (id, objeto) => {
-            const response = await alteraGasto(id, objeto)
-            if (response.return) {
-                alterGastos(id, response.return)
-            }
-            alert(`${response.message}`)
-        }
-        // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+        alert(`${response.message}`)
+    }
+    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
     return(
     <>

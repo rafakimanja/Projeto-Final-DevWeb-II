@@ -1,0 +1,20 @@
+.titulo{
+    font-size: 20pt;
+}
+
+.valor{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.valor p{
+    margin-right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.valor img {
+    width: 35px;
+}

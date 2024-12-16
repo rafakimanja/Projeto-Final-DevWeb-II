@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
+import './FormGastos.css'
 
 //manda o objeto criado com o formulario como prop para o Gasto e faz a requisicao por ele 
 
@@ -32,6 +33,12 @@ const FormGastos = ({addGastosArray}) => {
     }
 
     const handleSubmit = async (descricao, valor, data, tipo, categoria) => {
+
+        if (!descricao || !valor || !data || !tipo) {
+            alert("Preencha todos os campos do corretamente.")
+            return
+        }
+
         const gasto = {
             descricao: descricao,
             valor: valor,
@@ -50,32 +57,32 @@ const FormGastos = ({addGastosArray}) => {
 
     return(
         <div className="background-form">
-        
                 <div className="input-form">
                     <label htmlFor="descricao">Descrição</label>
-                    <input type="text" name="" value={descricao} id="descricao" onChange={handleDescricaoChange} required/>
+                    <input type="text" name="" value={descricao} id="descricao" onChange={handleDescricaoChange} placeholder='descrição' required/>
                 </div>
                 <div className="input-form">
                     <label htmlFor="valor">Valor</label>
-                    <input type="number" step={0.01} name="" value={valor} id="valor" onChange={handleValorChange} required/>
+                    <input type="number" step={0.01} name="" value={valor} id="valor" onChange={handleValorChange} placeholder='R$' required/>
                 </div>
                 <div className="input-form">
                     <label htmlFor="data">Data</label>
-                    <input type="date" name="" id="data" value={data} onChange={handleDataChange} />
+                    <input type="date" name="" id="data" value={data} onChange={handleDataChange} required/>
                 </div>
                 <div className="input-form">
-                    <label htmlFor="entrada">Entrada</label>
-                    <input type="radio" name="tipo" value="entrada" onChange={handleRadioChange} />
-                </div>
-                <div className="input-form">
-                    <label htmlFor="saida">Saída</label>
-                    <input type="radio" name="tipo" value="saida" onChange={handleRadioChange} />
+                    <div className="input-radio-buttons">
+                        <label htmlFor="entrada">Entrada</label>
+                        <input type="radio" name="tipo" value="entrada" onChange={handleRadioChange} />
+                        <label htmlFor="saida">Saída</label>
+                        <input type="radio" name="tipo" value="saida" onChange={handleRadioChange} />
+                    </div>
                 </div>
                 {
                     tipo == "saida" ? 
                     <div className="input-form">
+                        <label htmlFor="categoria">Categoria</label>
                         <select name="categoria" id="categoria" value={categoria} onChange={handleCategoriaChange} >
-                            <option>--selecione--</option>
+                            <option>selecione</option>
                             <option value="contas">Contas</option>
                             <option value="alimentacao">Alimentação</option>
                             <option value="lazer">Lazer</option>

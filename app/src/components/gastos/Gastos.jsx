@@ -5,15 +5,14 @@ import down from '../../assets/down.svg'
 import FormGastos from "./FormGastos"
 import TabelaMensal from "./TabelaMensal"
 import axios from "axios"
-import { useRouteLoaderData } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import './Gastos.css'
 
 const Gastos = ({deleteGasto, alteraGasto}) => {
 
     const [mesSelecionado, setMesSelecionado] = useState('')
     const [dadosMesSelecionado, setDadosMesSelecionado] = useState({})
     const [gastos, setGastos] = useState([])
-    const [gastosAPI, setGastosAPI] = useState([])
 
     const mesesDoAno = [
         "janeiro", "fevereiro", "marco", "abril", "maio", "junho",
@@ -29,23 +28,6 @@ const Gastos = ({deleteGasto, alteraGasto}) => {
             return gastosAtuais
         })
     }
-
-    useEffect(() => {
-        if (gastosAPI.length > 0){
-            gastosAPI.forEach((gasto) => {
-                if(gasto){
-                    addGastos({
-                        _id: gasto._id,
-                        data: gasto.data,
-                        descricao: gasto.descricao,
-                        valor: gasto.valor,
-                        tipo: gasto.tipo,
-                        categoria: gasto.categoria
-                    })
-                }
-            })
-        }
-    }, [gastosAPI, addGastos])
     
     const removeGastos = id => {
     setGastos(gastos.filter((dadoGasto) => dadoGasto._id != id))
@@ -107,54 +89,64 @@ const Gastos = ({deleteGasto, alteraGasto}) => {
 
     const setGastosMes = async (mes) => {
         const response = await getDetalhesGastosMesEspec(mes)
-        if(response.length > 0) setGastosAPI(response)
-        else setGastosAPI([])
+        if(response.length > 0) setGastos(response)
+        else setGastos([])
     }
 
 
     return(
-        <>
-            <select name="mesSelecionado" id="mesSelecionado" value={mesSelecionado} onChange={handleMesSelecionado} >
-                <option value="">Selecione</option>
-                <option value="janeiro">Janeiro</option>
-                <option value="fevereiro">Fevereiro</option>
-                <option value="marco">Março</option>
-                <option value="abril">Abril</option>
-                <option value="maio">Maio</option>
-                <option value="junho">Junho</option>
-                <option value="julho">Julho</option>
-                <option value="agosto">Agosto</option>
-                <option value="setembro">Setembro</option>
-                <option value="outubro">Outubro</option>
-                <option value="novembro">Novembro</option>
-                <option value="dezembro">Dezembro</option>
-            </select>
-            <h1>Mes {dadosMesSelecionado.mes} | Index {mesesDoAno.indexOf(mesSelecionado)}</h1>
+        <div className="background-gastos">
+            <div className="esc-mes">
+                <h2>Escolha um mês:</h2>
+                <select name="mesSelecionado" id="mesSelecionado" value={mesSelecionado} onChange={handleMesSelecionado} >
+                        <option value="">Selecione</option>
+                        <option value="janeiro">Janeiro</option>
+                        <option value="fevereiro">Fevereiro</option>
+                        <option value="marco">Março</option>
+                        <option value="abril">Abril</option>
+                        <option value="maio">Maio</option>
+                        <option value="junho">Junho</option>
+                        <option value="julho">Julho</option>
+                        <option value="agosto">Agosto</option>
+                        <option value="setembro">Setembro</option>
+                        <option value="outubro">Outubro</option>
+                        <option value="novembro">Novembro</option>
+                        <option value="dezembro">Dezembro</option>
+                </select>
+            </div>
+            
+            <h1>{dadosMesSelecionado.mes}</h1>
             <div className="valores">
                 <div className="aba">
                     <Tab>
                         <div>
-                            <h2>Entradas</h2>
-                            <img src={up} alt="icone seta para cima" />
-                            <p>R$ {dadosMesSelecionado.ganhos}</p>
+                            <h2 className="titulo">Entradas</h2>
+                            <div className="valor">
+                                <p>R$ {dadosMesSelecionado.ganhos}</p>
+                                <img src={up} alt="icone seta para cima" id="up" />
+                            </div>
                         </div>
                     </Tab>
                 </div>
                 <div className="aba">
                     <Tab>
                         <div>
-                            <h2>Saídas</h2>
-                            <img src={down} alt="icone seta para baixo" />
-                            <p>R$ {dadosMesSelecionado.gastos}</p>
+                            <h2 className="titulo">Saídas</h2>
+                            <div className="valor">
+                                <p>R$ {dadosMesSelecionado.gastos}</p>
+                                <img src={down} alt="icone seta para baixo" id="down"/>
+                            </div>
                         </div>
                     </Tab>
                 </div>
                 <div className="aba">
                     <Tab>
                         <div>
-                            <h2>Balanço</h2>
-                            <img src={money} alt="icone dinheiro" />
-                            <p>R$ {dadosMesSelecionado.saldo}</p>
+                            <h2 className="titulo">Balanço</h2>
+                            <div className="valor">
+                                <p>R$ {dadosMesSelecionado.saldo}</p>
+                                <img src={money} alt="icone dinheiro" id="money"/>
+                            </div>
                         </div>
                     </Tab>
                 </div>
@@ -165,21 +157,16 @@ const Gastos = ({deleteGasto, alteraGasto}) => {
             <div className="tabela-intervalos">
                 <TabelaMensal gastos={gastos} handleDeleteSubmit={handleDeleteSubmit} handleUpdateSubmit={handleUpdateSubmit}/>
             </div>
-        </>
+        </div>
     )
 }
 
 export default Gastos
 
-export async function getGastosMes() {
-    const url = 'http://localhost:3000/detalhes'
-    const {data} = await axios.get(url)
-    return data
-}
 
 async function getDetalhesGastosMesEspec(mes){
     const url = `http://localhost:3000/detalhes/${mes}`
-    const {data, response} = await axios.get(url)
+    const {data} = await axios.get(url)
     return data
 }
 

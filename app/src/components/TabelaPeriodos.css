@@ -1,16 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
 table {
-    font-family: arial, sans-serif;
+    font-family: "IBM Plex Sans", sans-serif;
     border-collapse: collapse;
-    width: 100%;
-    background-color: #fff;
-  }
+}
   
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+td a{
+  color: #404040;
+  text-decoration: none;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}

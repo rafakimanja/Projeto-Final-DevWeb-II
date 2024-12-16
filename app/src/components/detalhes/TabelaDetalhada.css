@@ -1,20 +1,15 @@
-.mes-detalhado{
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    background-color: #fff;
-  }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+.background-tabela-detalhada{
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
-  #desc{
-    width: 27%;
-  }
+.tabela-detalhada{
+  display: flex;
+  justify-content: center;
+  width: 98%;
+  margin-bottom: 50px;
+}

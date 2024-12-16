@@ -1,8 +1,9 @@
+import './Tab.css'
 
 const Tab = ({children}) => {
     return(
         <>
-        {children}
+            {children}
         </>
     )
 }

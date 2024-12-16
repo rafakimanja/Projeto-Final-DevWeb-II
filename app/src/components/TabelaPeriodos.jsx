@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import './TabelaPeriodos.css'
-import { useEffect } from 'react'
 
 const TabelaPeriodos = ({periodos}) => {
 

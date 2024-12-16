@@ -1,16 +1,83 @@
 table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    background-color: #fff;
-  }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 90%;
+  background-color: #f2f2f2;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #404040;
+  color: #f2f2f2;
+}
+
+.coluna-botoes{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.coluna-botoes button{
+  width: 35px;
+  height: 35px;
+  border-radius: 7px;
+  border-style: none;
+}
+
+.coluna-botoes button:hover{
+  border: 1px solid #ccc;
+}
+
+.coluna-botoes #editar{
+  background-color: rgb(218, 185, 0);
+}
+
+.coluna-botoes #excluir{
+  background-color: rgb(226, 0, 0);
+}
+
+td input{
+  padding: 8px 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+td select{
+  padding: 8px 20px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+td .botoes-alterar{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+td button{
+  width: 35px;
+  height: 35px;
+  border-radius: 7px;
+  border-style: none;
+}
+
+td button:hover{
+  border: 1px solid #ccc;
+}
+
+td #salvar{
+  background-color: green;
+}
+
+td #fechar{
+  background-color: rgb(226, 0, 0);
+}
