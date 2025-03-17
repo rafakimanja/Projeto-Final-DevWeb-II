@@ -1,0 +1,52 @@
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-docker
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - backend
+
+  # API Node.js Service
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-controle-gastos
+    working_dir: /server
+    ports:
+      - "3000:3000"  # Porta onde sua API vai rodar
+    environment:
+      MONGO_URL: 'mongodb://mongodb:27017/dbGastos'  # A URL de conexão com o MongoDB
+    depends_on:
+      - mongodb  # Garantir que o MongoDB esteja disponível antes da API iniciar
+    volumes:
+      - ./server:/server
+    networks:
+      - backend
+
+  # React Frontend Service (Vite)
+  react:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: react-frontend
+    working_dir: /app
+    ports:
+      - "5173:5173"  # Porta onde sua aplicação React (Vite) vai rodar
+    volumes:
+      - ./app:/app
+    networks:
+      - frontend
+    command: ["npm", "run", "dev"]  # Usando o Vite no modo de desenvolvimento
+
+volumes:
+  mongodb-data:
+
+networks:
+  backend:
+  frontend:
+    external: false

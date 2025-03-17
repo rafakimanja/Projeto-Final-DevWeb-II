@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://127.0.0.1:27017/dbGastos')
+const mongoUrl = "mongodb://localhost:27017/dbGastos"
+
+mongoose.connect(mongoUrl)
     .then(() => {
         console.log('Conexão estabelecida com o banco!')
     })

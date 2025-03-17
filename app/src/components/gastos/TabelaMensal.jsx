@@ -87,6 +87,11 @@ const TabelaMensal = ({ gastos, handleDeleteSubmit, handleUpdateSubmit }) => {
                     <option value="contas">Contas</option>
                     <option value="alimentacao">Alimentação</option>
                     <option value="lazer">Lazer</option>
+                    <option value="farmacia">Farmacia</option>
+                    <option value="transporte">Transporte</option>
+                    <option value="assinaturas">Assinaturas</option>
+                    <option value="compras">Compras</option>
+                    <option value="outros">Outros</option>
                   </select>
                 </td>
                 <td>
